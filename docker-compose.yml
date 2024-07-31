@@ -23,16 +23,19 @@ services:
       - mysql
     restart: unless-stopped
   mysql:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: mate_root
-      MYSQL_DATABASE: app_db
-      MYSQL_USER: volry
-      MYSQL_PASSWORD: mate_best
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
+    container_name: my-sql
     ports:
       - "3306:3306"
     volumes:
       - todoapp-db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     networks:
       - todoapp-net
 volumes:
